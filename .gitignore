@@ -106,5 +106,6 @@ venv.bak/
 # IDEA
 /.idea
 
-# Data cache
+# Data caches
 /data.json
+/.fetcher_cache

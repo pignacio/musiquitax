@@ -4,6 +4,8 @@ import sys
 
 from musiquitax.event import event_to_dict, event_from_dict
 from musiquitax.event.source.alternativa_teatral import AlternativaTeatral
+from musiquitax.network import RequestsFetcher
+from musiquitax.network.cache import CachedFetcher
 
 logger = logging.getLogger(__name__)
 
@@ -29,7 +31,7 @@ def main():
 
     data = load_data()
 
-    source = AlternativaTeatral("http://www.alternativateatral.com/espacio2531-cafe-vinilo")
+    source = AlternativaTeatral("http://www.alternativateatral.com/espacio2531-cafe-vinilo", fetcher=CachedFetcher(RequestsFetcher.instance()))
     try:
         for event_id in source.get_event_ids():
             if event_id in data:
