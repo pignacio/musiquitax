@@ -31,7 +31,6 @@ def main():
 
     source = AlternativaTeatral("http://www.alternativateatral.com/espacio2531-cafe-vinilo")
     try:
-        raise Exception()
         for event_id in source.get_event_ids():
             if event_id in data:
                 logger.info(f"Event '{event_id}' is present in the data. Not re-fetching")

@@ -105,3 +105,6 @@ venv.bak/
 
 # IDEA
 /.idea
+
+# Data cache
+/data.json

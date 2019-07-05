@@ -7,7 +7,8 @@ from urllib.parse import urljoin
 from bs4 import BeautifulSoup, Tag
 
 from musiquitax.event import Event
-from musiquitax.event.source import EventSource, UrlFetcher, RequestsFetcher
+from musiquitax.event.source import EventSource
+from musiquitax.network import UrlFetcher, RequestsFetcher
 
 logger = logging.getLogger(__name__)
 
