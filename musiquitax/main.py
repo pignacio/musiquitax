@@ -4,6 +4,7 @@ import sys
 
 from musiquitax.event import event_to_dict, event_from_dict
 from musiquitax.event.source.alternativa_teatral import AlternativaTeatral
+from musiquitax.event.source.ticket_hoy import TicketHoy
 from musiquitax.network import RequestsFetcher
 from musiquitax.network.cache import CachedFetcher
 
@@ -31,13 +32,16 @@ def main():
 
     data = load_data()
 
-    source = AlternativaTeatral("http://www.alternativateatral.com/espacio2531-cafe-vinilo", fetcher=CachedFetcher(RequestsFetcher.instance()))
+    source = AlternativaTeatral("http://www.alternativateatral.com/espacio2531-cafe-vinilo",
+                                fetcher=CachedFetcher(RequestsFetcher.instance()))
+    source = TicketHoy("https://bue.tickethoy.com/search-home?categoria=&lugar=559&dia=&fechar_orden=true",
+                       fetcher=CachedFetcher(RequestsFetcher.instance()))
     try:
         for event_id in source.get_event_ids():
             if event_id in data:
                 logger.info(f"Event '{event_id}' is present in the data. Not re-fetching")
             else:
-                logger.info(f"Updating data for '{event_id}")
+                logger.info(f"Updating data for '{event_id}'")
                 events = source.get_events(event_id)
                 logger.info(f"Found {len(events)} events for '{event_id}'")
                 data[event_id] = [event_to_dict(e) for e in events]
