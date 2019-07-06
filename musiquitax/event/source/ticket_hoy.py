@@ -1,11 +1,8 @@
 import datetime
 import json
 import logging
-import re
 from typing import List, Dict
-from urllib.parse import urljoin
-
-from bs4 import BeautifulSoup, Tag
+from urllib.parse import urlparse
 
 from musiquitax.event import Event
 from musiquitax.event.source import EventSource
@@ -43,15 +40,19 @@ class TicketHoy(EventSource):
         return [self.__events[event_id]]
 
     def _parse_events(self, contents: str) -> Dict[str, Event]:
-        events = json.loads(contents)
-        return {e["id"]: Event(
-            id=str(e["id"]),
-            title=e["nombre"],
-            location=e["complejo"],
-            datetime=self._get_datetime(e["fecha"]),
-            price=float(e["importe"]),
-            url=f"""https://bue.tickethoy.com/{e["categoriaSlug"]}/{e["eventoSlug"]}""",
-        ) for e in events}
+        events = [self._parse_event(d) for d in json.loads(contents)]
+        return {e.id: e for e in events}
+
+    def _parse_event(self, data: dict) -> Event:
+        domain = urlparse(self.__base_url).netloc
+        return Event(
+            id=f"""{domain}:::{data["id"]}""",
+            title=data["nombre"],
+            location=data["complejo"],
+            datetime=self._get_datetime(data["fecha"]),
+            price=float(data["importe"]),
+            url=f"""https://{domain}/{data["categoriaSlug"]}/{data["eventoSlug"]}""",
+        )
 
     @staticmethod
     def _get_datetime(pretty_date: str):

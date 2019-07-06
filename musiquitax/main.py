@@ -36,6 +36,8 @@ def main():
                                 fetcher=CachedFetcher(RequestsFetcher.instance()))
     source = TicketHoy("https://bue.tickethoy.com/search-home?categoria=&lugar=559&dia=&fechar_orden=true",
                        fetcher=CachedFetcher(RequestsFetcher.instance()))
+    source = TicketHoy("https://bebopclub.boleteria.online/search-home?categoria=&lugar=634&dia=&fechar_orden=true",
+                       fetcher=CachedFetcher(RequestsFetcher.instance()))
     try:
         for event_id in source.get_event_ids():
             if event_id in data:
