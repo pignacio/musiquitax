@@ -30,6 +30,8 @@ class AlternativaTeatral(EventSource):
         data = self.__fetcher.fetch(url)
         soup = BeautifulSoup(data, features="html.parser")
         venue_tag = soup.find("div", {"class": "teatro"})
+        if venue_tag is None:
+            return []
         venue_name = venue_tag.find("span", {"itemprop": "location"}).find("span", {"itemprop": "name"}).text
         title = soup.find(id="izquierda").h1.text
         matches = re.finditer(_EVENT_RE, venue_tag.text)
