@@ -5,6 +5,7 @@ import sys
 from musiquitax.event import event_to_dict, event_from_dict
 from musiquitax.event.source.alternativa_teatral import AlternativaTeatral
 from musiquitax.event.source.ticket_hoy import TicketHoy
+from musiquitax.event.source.tu_entrada import TuEntrada
 from musiquitax.network import RequestsFetcher
 from musiquitax.network.cache import CachedFetcher
 
@@ -37,6 +38,8 @@ def main():
     source = TicketHoy("https://bue.tickethoy.com/search-home?categoria=&lugar=559&dia=&fechar_orden=true",
                        fetcher=CachedFetcher(RequestsFetcher.instance()))
     source = TicketHoy("https://bebopclub.boleteria.online/search-home?categoria=&lugar=634&dia=&fechar_orden=true",
+                       fetcher=CachedFetcher(RequestsFetcher.instance()))
+    source = TuEntrada("https://www.tuentrada.com/notorious/Online/",
                        fetcher=CachedFetcher(RequestsFetcher.instance()))
     try:
         for event_id in source.get_event_ids():
